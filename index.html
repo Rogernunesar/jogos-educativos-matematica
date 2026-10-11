@@ -70,6 +70,7 @@
     <div class="container mt-4">
         <!-- TELA 1: BUSCA -->
         <div id="tela-busca">
+
             <div class="card p-4">
                 <h3>🔍 Buscar Jogos</h3>
                 <p class="text-muted">Pesquise por descrição ou palavras-chave.</p>
@@ -78,6 +79,9 @@
                     <button class="btn btn-primary" onclick="buscarJogos()">Pesquisar</button>
                 </div>
                 <div id="resultados"></div>
+            <button id="botaoInstalar" class="btn btn-success mt-3" style="display:none;">
+            📲 Instalar App
+            </button>
             </div>
         </div>
 
@@ -271,5 +275,23 @@
         navigator.serviceWorker.register('sw.js');
       }
     </script>
+let promptInstalacao;
+
+// Captura o evento quando o navegador permite a instalação
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault(); // Impede o banner padrão do navegador
+    promptInstalacao = event; // Guarda o evento para usar depois
+    document.getElementById('botaoInstalar').style.display = 'block'; // Mostra o botão
+});
+
+// Quando o usuário clicar no botão, mostra o prompt de instalação
+document.getElementById('botaoInstalar').addEventListener('click', async () => {
+    if (!promptInstalacao) return;
+    promptInstalacao.prompt(); // Abre o diálogo de instalação
+    const resultado = await promptInstalacao.userChoice;
+    console.log('Usuário escolheu:', resultado.outcome);
+    promptInstalacao = null;
+    document.getElementById('botaoInstalar').style.display = 'none';
+});
 </body>
 </html>
