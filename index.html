@@ -10,6 +10,8 @@
         .navbar-brand { font-weight: bold; }
         .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .resultado-item { border-left: 4px solid #0d6efd; margin-bottom: 10px; }
+        footer a { color: #6c757d; transition: color 0.2s; }
+        footer a:hover { color: #0d6efd; }
     </style>
 </head>
 <body>
@@ -29,6 +31,7 @@
         <div id="tela-busca">
             <div class="card p-4">
                 <h3>🔍 Buscar Jogos</h3>
+                <p class="text-muted">Pesquise por descrição ou palavras-chave.</p>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="inputBusca" placeholder="Digite palavras-chave ou descrição...">
                     <button class="btn btn-primary" onclick="buscarJogos()">Pesquisar</button>
@@ -107,8 +110,28 @@
         </div>
     </div>
 
+    <!-- RODAPÉ -->
+    <footer class="text-center text-muted py-4 mt-5 border-top">
+        <div class="container">
+            <p class="mb-2">
+                <a href="https://github.com/Rogernunesar/jogos-educativos-matematica" 
+                   target="_blank" class="text-decoration-none mx-2">
+                   📂 GitHub
+                </a>
+                <a href="mailto:seuemail@exemplo.com" 
+                   class="text-decoration-none mx-2">
+                   ✉️ Contato
+                </a>
+                <a href="https://script.google.com/macros/s/AKfycbxCUI7HB_pRBq_Jt9ZJGW_zXBQVD4otplIoDU1ZDW260Hm3jr4kDwqA5hAQZaTr7qHd/exec" 
+                   target="_blank" class="text-decoration-none mx-2">
+                   📊 Planilha de Dados
+                </a>
+            </p>
+            <small>© 2025 Jogos Educativos de Matemática — Trabalho de Conclusão de Curso</small>
+        </div>
+    </footer>
+
     <script>
-        // ⚠️ COLE AQUI A URL DO SEU APLICATIVO DA WEB
         const API_URL = 'https://script.google.com/macros/s/AKfycbxCUI7HB_pRBq_Jt9ZJGW_zXBQVD4otplIoDU1ZDW260Hm3jr4kDwqA5hAQZaTr7qHd/exec';
 
         function mostrarTela(tela) {
