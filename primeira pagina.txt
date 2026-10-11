@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Educativos de Matemática</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar-brand { font-weight: bold; }
+        .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .resultado-item { border-left: 4px solid #0d6efd; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">📚 Jogos Educativos</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#" onclick="mostrarTela('busca')">Buscar</a>
+                <a class="nav-link" href="#" onclick="mostrarTela('cadastro')">Cadastrar</a>
+                <a class="nav-link" href="#" onclick="mostrarTela('feedback')">Feedback</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- TELA 1: BUSCA -->
+        <div id="tela-busca">
+            <div class="card p-4">
+                <h3>🔍 Buscar Jogos</h3>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="inputBusca" placeholder="Digite palavras-chave ou descrição...">
+                    <button class="btn btn-primary" onclick="buscarJogos()">Pesquisar</button>
+                </div>
+                <div id="resultados"></div>
+            </div>
+        </div>
+
+        <!-- TELA 2: CADASTRO -->
+        <div id="tela-cadastro" style="display:none;">
+            <div class="card p-4">
+                <h3>➕ Cadastrar Novo Jogo</h3>
+                <form id="formCadastro">
+                    <div class="row g-2">
+                        <div class="col-md-6"><input class="form-control" name="Cod Ref" placeholder="Cod Ref"></div>
+                        <div class="col-md-6"><input class="form-control" name="Autores" placeholder="Autores"></div>
+                        <div class="col-md-6"><input class="form-control" name="Nome do responsável pelo cadastro" placeholder="Nome do responsável"></div>
+                        <div class="col-md-6"><input class="form-control" name="Nome do jogo" placeholder="Nome do jogo"></div>
+                        <div class="col-md-6"><input class="form-control" name="Idioma do jogo" placeholder="Idioma"></div>
+                        <div class="col-md-6"><input class="form-control" name="Plataforma" placeholder="Plataforma"></div>
+                        <div class="col-md-12"><textarea class="form-control" name="Descrição" placeholder="Descrição"></textarea></div>
+                        <div class="col-md-12"><input class="form-control" name="Palavras-chave" placeholder="Palavras-chave"></div>
+                        <div class="col-md-12"><input class="form-control" name="URL" placeholder="URL do jogo"></div>
+                        <div class="col-md-6"><input class="form-control" name="Disciplina" placeholder="Disciplina"></div>
+                        <div class="col-md-6"><input class="form-control" name="Ano Escolar" placeholder="Ano Escolar"></div>
+                        <div class="col-md-6"><input class="form-control" name="Idade mínima" placeholder="Idade mínima"></div>
+                        <div class="col-md-6"><input class="form-control" name="Tipo" placeholder="Tipo"></div>
+                        <div class="col-md-6"><input class="form-control" name="Formato" placeholder="Formato"></div>
+                        <div class="col-md-6"><input class="form-control" name="Custo" placeholder="Custo"></div>
+                        <div class="col-md-6"><input class="form-control" name="Licença" placeholder="Licença"></div>
+                        <div class="col-md-6"><input class="form-control" name="Autoria" placeholder="Autoria"></div>
+                        <div class="col-md-6"><input class="form-control" name="Data" placeholder="Data"></div>
+                        <div class="col-md-12"><input class="form-control" name="Unidade temática" placeholder="Unidade temática"></div>
+                        <div class="col-md-12"><textarea class="form-control" name="Competências e habilidades" placeholder="Competências e habilidades"></textarea></div>
+                        <div class="col-md-12"><textarea class="form-control" name="Comentários e observações" placeholder="Comentários e observações"></textarea></div>
+                        <div class="col-md-6"><input class="form-control" name="Cod_Referência" placeholder="Cod_Referência"></div>
+                        <div class="col-md-6"><input class="form-control" name="Referência de origem" placeholder="Referência de origem"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Salvar Jogo</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TELA 3: FEEDBACK -->
+        <div id="tela-feedback" style="display:none;">
+            <div class="card p-4">
+                <h3>💬 Enviar Feedback</h3>
+                <form id="formFeedback">
+                    <div class="row g-2">
+                        <div class="col-md-6"><input class="form-control" name="nome" placeholder="Nome" required></div>
+                        <div class="col-md-6"><input class="form-control" name="escola" placeholder="Escola"></div>
+                        <div class="col-md-6"><input class="form-control" name="disciplina" placeholder="Disciplina"></div>
+                        <div class="col-md-6"><input class="form-control" name="jogo" placeholder="Jogo pesquisado"></div>
+                        <div class="col-md-6">
+                            <label class="form-label">Utilidade (1-5)</label>
+                            <input type="number" class="form-control" name="utilidade" min="1" max="5">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Facilidade (1-5)</label>
+                            <input type="number" class="form-control" name="facilidade" min="1" max="5">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Atendeu?</label>
+                            <select class="form-select" name="atendeu">
+                                <option value="Sim">Sim</option>
+                                <option value="Parcialmente">Parcialmente</option>
+                                <option value="Não">Não</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12"><textarea class="form-control" name="comentarios" placeholder="Comentários"></textarea></div>
+                        <div class="col-md-12"><textarea class="form-control" name="sugestoes" placeholder="Sugestões"></textarea></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Enviar Feedback</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ COLE AQUI A URL DO SEU APLICATIVO DA WEB
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxCUI7HB_pRBq_Jt9ZJGW_zXBQVD4otplIoDU1ZDW260Hm3jr4kDwqA5hAQZaTr7qHd/exec';
+
+        function mostrarTela(tela) {
+            document.getElementById('tela-busca').style.display = tela === 'busca' ? 'block' : 'none';
+            document.getElementById('tela-cadastro').style.display = tela === 'cadastro' ? 'block' : 'none';
+            document.getElementById('tela-feedback').style.display = tela === 'feedback' ? 'block' : 'none';
+        }
+
+        async function buscarJogos() {
+            const termo = document.getElementById('inputBusca').value;
+            const divResultados = document.getElementById('resultados');
+            divResultados.innerHTML = '<p>Buscando...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}?q=${encodeURIComponent(termo)}`);
+                const jogos = await response.json();
+
+                if (jogos.length === 0) {
+                    divResultados.innerHTML = '<p class="text-muted">Nenhum jogo encontrado.</p>';
+                    return;
+                }
+
+                let html = '';
+                jogos.forEach(jogo => {
+                    html += `
+                        <div class="card resultado-item p-3">
+                            <h5>${jogo['Nome do jogo'] || 'Sem nome'}</h5>
+                            <p><strong>Descrição:</strong> ${jogo['Descrição'] || ''}</p>
+                            <p><strong>Palavras-chave:</strong> ${jogo['Palavras-chave'] || ''}</p>
+                            <a href="${jogo['URL']}" target="_blank" class="btn btn-sm btn-primary">Acessar Jogo</a>
+                        </div>
+                    `;
+                });
+                divResultados.innerHTML = html;
+            } catch (error) {
+                divResultados.innerHTML = `<p class="text-danger">Erro ao buscar: ${error.message}</p>`;
+            }
+        }
+
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const dados = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                const result = await response.json();
+                alert(result.message || 'Jogo cadastrado com sucesso!');
+                e.target.reset();
+            } catch (error) {
+                alert('Erro ao cadastrar: ' + error.message);
+            }
+        });
+
+        document.getElementById('formFeedback').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const dados = Object.fromEntries(formData.entries());
+            dados.tipo = 'feedback';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                const result = await response.json();
+                alert(result.message || 'Feedback enviado!');
+                e.target.reset();
+            } catch (error) {
+                alert('Erro ao enviar feedback: ' + error.message);
+            }
+        });
+
+        mostrarTela('busca');
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
