@@ -268,30 +268,29 @@
         // Inicia na tela de busca com o item destacado
         mostrarTela('busca');
     </script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js');
-      }
-    </script>
-let promptInstalacao;
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
 
-// Captura o evento quando o navegador permite a instalação
-window.addEventListener('beforeinstallprompt', (event) => {
-    event.preventDefault(); // Impede o banner padrão do navegador
-    promptInstalacao = event; // Guarda o evento para usar depois
-    document.getElementById('botaoInstalar').style.display = 'block'; // Mostra o botão
-});
+  // Botão de instalação
+  let promptInstalacao;
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    promptInstalacao = event;
+    document.getElementById('botaoInstalar').style.display = 'block';
+  });
 
-// Quando o usuário clicar no botão, mostra o prompt de instalação
-document.getElementById('botaoInstalar').addEventListener('click', async () => {
+  document.getElementById('botaoInstalar').addEventListener('click', async () => {
     if (!promptInstalacao) return;
-    promptInstalacao.prompt(); // Abre o diálogo de instalação
+    promptInstalacao.prompt();
     const resultado = await promptInstalacao.userChoice;
     console.log('Usuário escolheu:', resultado.outcome);
     promptInstalacao = null;
     document.getElementById('botaoInstalar').style.display = 'none';
-});
+  });
+</script>
 </body>
 </html>
