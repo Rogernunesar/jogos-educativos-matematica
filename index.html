@@ -6,23 +6,58 @@
     <title>Jogos Educativos de Matemática</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; }
-        .navbar-brand { font-weight: bold; }
+        body { 
+            background-color: #f8f9fa; 
+            padding-bottom: 80px; /* espaço para a barra inferior */
+        }
         .card { border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .resultado-item { border-left: 4px solid #0d6efd; margin-bottom: 10px; }
-        footer a { color: #6c757d; transition: color 0.2s; }
-        footer a:hover { color: #0d6efd; }
+
+        /* ===== BARRA INFERIOR (estilo app) ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 1000;
+        }
+        .bottom-nav a {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: #6c757d;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 0;
+            transition: color 0.2s;
+        }
+        .bottom-nav a .icon {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 2px;
+        }
+        .bottom-nav a:hover,
+        .bottom-nav a.active {
+            color: #0d6efd;
+        }
+        footer.creditos {
+            text-align: center;
+            color: #adb5bd;
+            font-size: 12px;
+            padding: 20px 0 10px;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="#">📚 Jogos Educativos</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#" onclick="mostrarTela('busca')">Buscar</a>
-                <a class="nav-link" href="#" onclick="mostrarTela('cadastro')">Cadastrar</a>
-                <a class="nav-link" href="#" onclick="mostrarTela('feedback')">Feedback</a>
-            </div>
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container justify-content-center">
+            <span class="navbar-brand mb-0">📚 Jogos Educativos de Matemática</span>
         </div>
     </nav>
 
@@ -108,36 +143,46 @@
                 </form>
             </div>
         </div>
+
+        <footer class="creditos">
+            © 2025 Jogos Educativos de Matemática — TCC
+        </footer>
     </div>
 
-    <!-- RODAPÉ -->
-    <footer class="text-center text-muted py-4 mt-5 border-top">
-        <div class="container">
-            <p class="mb-2">
-                <a href="https://github.com/Rogernunesar/jogos-educativos-matematica" 
-                   target="_blank" class="text-decoration-none mx-2">
-                   📂 GitHub
-                </a>
-                <a href="mailto:seuemail@exemplo.com" 
-                   class="text-decoration-none mx-2">
-                   ✉️ Contato
-                </a>
-                <a href="https://script.google.com/macros/s/AKfycbxCUI7HB_pRBq_Jt9ZJGW_zXBQVD4otplIoDU1ZDW260Hm3jr4kDwqA5hAQZaTr7qHd/exec" 
-                   target="_blank" class="text-decoration-none mx-2">
-                   📊 Planilha de Dados
-                </a>
-            </p>
-            <small>© 2025 Jogos Educativos de Matemática — Trabalho de Conclusão de Curso</small>
-        </div>
-    </footer>
+    <!-- ===== BARRA INFERIOR (estilo app) ===== -->
+    <nav class="bottom-nav">
+        <a href="#" id="nav-busca" onclick="mostrarTela('busca')">
+            <span class="icon">🔍</span>
+            Buscar
+        </a>
+        <a href="#" id="nav-cadastro" onclick="mostrarTela('cadastro')">
+            <span class="icon">➕</span>
+            Cadastrar
+        </a>
+        <a href="#" id="nav-feedback" onclick="mostrarTela('feedback')">
+            <span class="icon">💬</span>
+            Feedback
+        </a>
+    </nav>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbxCUI7HB_pRBq_Jt9ZJGW_zXBQVD4otplIoDU1ZDW260Hm3jr4kDwqA5hAQZaTr7qHd/exec';
 
         function mostrarTela(tela) {
-            document.getElementById('tela-busca').style.display = tela === 'busca' ? 'block' : 'none';
-            document.getElementById('tela-cadastro').style.display = tela === 'cadastro' ? 'block' : 'none';
-            document.getElementById('tela-feedback').style.display = tela === 'feedback' ? 'block' : 'none';
+            // Esconde todas as telas
+            document.getElementById('tela-busca').style.display = 'none';
+            document.getElementById('tela-cadastro').style.display = 'none';
+            document.getElementById('tela-feedback').style.display = 'none';
+
+            // Mostra a tela escolhida
+            document.getElementById('tela-' + tela).style.display = 'block';
+
+            // Atualiza o destaque na barra inferior
+            document.querySelectorAll('.bottom-nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById('nav-' + tela).classList.add('active');
+
+            // Sobe a página
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function buscarJogos() {
@@ -210,6 +255,7 @@
             }
         });
 
+        // Inicia na tela de busca com o item destacado
         mostrarTela('busca');
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
