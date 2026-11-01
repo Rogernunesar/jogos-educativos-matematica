@@ -161,7 +161,25 @@
             © 2025 Jogos Educativos de Matemática — TCC
         </footer>
     </div>
-
+        <!-- Modal de Prévia do Jogo -->
+    <div class="modal fade" id="modalPreview" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="modalPreviewLabel">Nome do Jogo</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img id="imagemPreview" src="" alt="Prévia" class="img-fluid rounded mb-3" style="max-height: 250px; object-fit: cover; width: 100%;">
+            <p class="text-muted small" id="textoPreview">Gerando prévia do site... Aguarde um instante.</p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Voltar</button>
+            <a id="linkAcessarJogo" href="#" target="_blank" class="btn btn-success">Ir para o Jogo 🚀</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- ===== BARRA INFERIOR (estilo app) ===== -->
     <nav class="bottom-nav">
         <a href="#" id="nav-busca" onclick="mostrarTela('busca')">
@@ -219,7 +237,7 @@
                             <h5>${jogo['Nome do jogo'] || 'Sem nome'}</h5>
                             <p><strong>Descrição:</strong> ${jogo['Descrição'] || ''}</p>
                             <p><strong>Palavras-chave:</strong> ${jogo['Palavras-chave'] || ''}</p>
-                            <a href="${jogo['URL']}" target="_blank" class="btn btn-sm btn-primary">Acessar Jogo</a>
+                            <button onclick="abrirPreview('${jogo['URL']}', '${(jogo['Nome do jogo'] || 'Sem nome').replace(/'/g, "\\'")}')" class="btn btn-sm btn-primary">Acessar Jogo</button>
                         </div>
                     `;
                 });
@@ -227,6 +245,36 @@
             } catch (error) {
                 divResultados.innerHTML = `<p class="text-danger">Erro ao buscar: ${error.message}</p>`;
             }
+        }
+                function abrirPreview(url, nome) {
+            if (!url || url === 'undefined' || url === '') {
+                alert('Este jogo ainda não tem um link cadastrado.');
+                return;
+            }
+
+            // Preenche os dados no modal
+            document.getElementById('modalPreviewLabel').innerText = nome;
+            document.getElementById('linkAcessarJogo').href = url;
+
+            // Usa o serviço do WordPress para tirar um "print" do site
+            const urlImagem = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(url) + '?w=600';
+            const img = document.getElementById('imagemPreview');
+            const texto = document.getElementById('textoPreview');
+            
+            img.src = urlImagem;
+            texto.innerText = 'Gerando prévia... Se demorar, clique em "Ir para o Jogo".';
+            
+            // Quando a imagem carregar, esconde o texto
+            img.onload = function() {
+                texto.style.display = 'none';
+            };
+            img.onerror = function() {
+                texto.innerText = 'Não foi possível gerar a prévia deste site.';
+            };
+
+            // Abre a janela
+            const modal = new bootstrap.Modal(document.getElementById('modalPreview'));
+            modal.show();
         }
              // Permite buscar apertando Enter
         document.getElementById('inputBusca').addEventListener('keypress', function (e) {
